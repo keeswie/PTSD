@@ -3,7 +3,9 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 
-const propRoutes = require('./API/routes/properties')
+const prodRoutes = require('./API/routes/Product')
+const locRoutes = require('./Api/routes/location')
+const empRoutes = require('./API/routes/employee')
 
 // setting everything up
 app.use(morgan('dev'))
@@ -24,7 +26,9 @@ app.use((req, res, next) => {
 })
 
 // from here its sending requests
-app.use('/properties', propRoutes)
+app.use('/products', prodRoutes)
+app.use('/employees', empRoutes)
+app.use('/locations', locRoutes)
 
 // if it cant find any or finish any it returns this (error)
 app.use((req, res, next) => {
