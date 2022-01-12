@@ -15,18 +15,27 @@ components:
       required:
         - "id"
         - "name"
+        - "username"
         - "adress"
+        - "email"
+        - "password"
       properties:
         id:
           type: string
           readOnly: true
         name: 
           type: string
+        username:
+          type: string
         adress:
           type: string
         email:
           type: string
         password:
+          type: string
+        birthdate:
+          type: string
+        additionalInfo:
           type: string
     Product:
       type: object
@@ -55,6 +64,8 @@ components:
           type: string
         numberProdcut:
           type: integer
+        description:
+          type: string
   responses:
     errorMessage:
       description: "Request body is was not well formed."
@@ -258,14 +269,14 @@ paths:
         '5XX':
           $ref: '#/components/responses/ServerError'
   /product/{barcode}:
-    parameters:
+    get:
+      parameters:
       - name: barcode
         in: path
         required: true
         description: The barcode of the product
         schema:
           type: string
-    get:
       security:
         - basicAuth: []
       tags:
@@ -290,30 +301,29 @@ paths:
         
         '5XX':
           $ref: '#/components/responses/ServerError'
-  /product/{barcode}/at/{location}:
-    parameters:
+    put:
+      parameters:
       - name: barcode
         in: path
         required: true
         description: The barcode of the product
         schema:
           type: string
-      - name: location
-        in: path
-        required: true
-        description: the location of the product
-        schema:
-          type: string
-    put:
       security:
         - basicAuth: []
       tags:
         - Product
       description: Updates the product with the given barcode and information
       summary: Updates a product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
       responses:
         '200':
-          description: Employee found, updated and returned
+          description: prodcut found, updated and returned
           content:
             application/json:
               schema:
