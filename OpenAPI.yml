@@ -1,37 +1,47 @@
 openapi: '3.0.2'
 info:
-  title: Customer API
+  title: Products API
   version: '1.0'
   description: |
-    API that allows the user to view products and create wishlists. 
+    API that allows the user to interact with the products, locations and employees tracked by this Web Application
 components:
   securitySchemes:
     basicAuth:     
       type: http
       scheme: basic
   schemas:
-    Customer:
+    Employee:
       type: object
       required:
         - "id"
         - "name"
-        - "address"
+        - "username"
+        - "adress"
+        - "email"
+        - "password"
       properties:
         id:
           type: string
           readOnly: true
         name: 
           type: string
-        address:
+        username:
+          type: string
+        adress:
           type: string
         email:
           type: string
         password:
           type: string
-        wishList:
-          type: object
+        birthdate:
+          type: string
+        additionalInfo:
+          type: string
     Product:
       type: object
+      required:
+        - "barcode"
+        - "date"
       properties:
         barcode:
           type: string
@@ -39,8 +49,6 @@ components:
           type: string
         location:
           type: string
-        price:
-          type: number
         date:
           type: string
           format: date
@@ -56,17 +64,11 @@ components:
           type: string
         numberProdcut:
           type: integer
-    WishList:
-      type: object
-      properties:
-        products:
-          type: array 
-          items:
-            $ref: "#/components/schemas/Product"
-        
+        description:
+          type: string
   responses:
     errorMessage:
-      description: "Request body was not well formed."
+      description: "Request body is was not well formed."
       content:
         application/json:
           schema:
@@ -84,23 +86,29 @@ components:
 
     NotFound:
       description: Resource not found
-
-paths:
-  /customer:
+paths: 
+  /employee:
     post:
       security:
         - basicAuth: []
-      tags:
-        - Customer
-      description: "Creates a customer account with the given information from the body"
-      summary: Creates a customer
+      tags: 
+        - Employee
+      description: "Creates an Employee with the given information from the body"
+      summary: Creates an Employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/Employee'
       responses:
         '201':
-          description: returned the created Customer
+          description: returned the created Employee
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                $ref: '#/components/schemas/Employee'
             text/csv:
               schema:
                 type: string
@@ -109,28 +117,53 @@ paths:
         
         '5XX':
           $ref: '#/components/responses/ServerError' 
-  /customer/{id}:
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Employee
+      description: "Retrieves a list all Employees"
+      summary: List of Employees
+
+      responses: 
+        '200':
+          description: List made and returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError' 
+  /employee/{id}:
     parameters:
       - name: id
         in: path
         required: true
-        description: "The id of the Customer" 
+        description: "The id of the Employee"
         schema:
           type: string
     get:
       security:
         - basicAuth: []
       tags:
-        -  Customer
-      summary: Get wanted Customer
-      description: "Get Customer with the given id"
+        - Employee
+      summary: Get wanted Employee
+      description: "Get Employee with the same id"
       responses:
         '200':
-          description: Customer found and returned
+          description: Employee found and returned
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                $ref: '#/components/schemas/Employee'
             text/csv:
               schema:
                 type: string
@@ -147,23 +180,23 @@ paths:
       security:
         - basicAuth: []
       tags:
-        - Customer
-      description: "Updates a Customer with the given id"
-      summary: Updates a Customer
+        - Employee
+      description: "Updates an Employee with the given id"
+      summary: Updates an Employee
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Customer'
+              $ref: '#/components/schemas/Employee'
     
       responses:
         '200':
-          description: "Customer found, changed and returned"
+          description: "Employee found, changed and returned"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                $ref: '#/components/schemas/Employee'
             text/csv:
               schema:
                 type: string
@@ -180,17 +213,17 @@ paths:
       security:
         - basicAuth: []
       tags:
-        - Customer
-      description: "Deletes a Customer with the given id and return the Customer"
-      summary: Deletes a Customer
+        - Employee
+      description: "Deletes an Employee with the given id and return the Employee"
+      summary: Deletes an Employee
 
       responses:
         '204':
-          description: Customer found, deleted and returned
+          description: Employee found, deleted and returned
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                $ref: '#/components/schemas/Employee'
             text/csv:
               schema:
                 type: string
@@ -202,16 +235,48 @@ paths:
         
         '5XX':
           $ref: '#/components/responses/ServerError'
-
+  /product:
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - Product
+      description: "creates a product with given information in the body and returns the created product"
+      summary: "creates a product"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Employee created and returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
   /product/{barcode}:
-    parameters:
+    get:
+      parameters:
       - name: barcode
         in: path
         required: true
         description: The barcode of the product
         schema:
           type: string
-    get:
       security:
         - basicAuth: []
       tags:
@@ -220,7 +285,7 @@ paths:
       summary: Gets a product
       responses:
         '200':
-          description: Product found and returned
+          description: Employee found and returned
           content:
             application/json:
               schema:
@@ -236,30 +301,33 @@ paths:
         
         '5XX':
           $ref: '#/components/responses/ServerError'
-
-  /wishlist/{customerId}:
-    parameters:
-      - name: customerId
+    put:
+      parameters:
+      - name: barcode
         in: path
-        required: true 
-        description: The id of the Customer
+        required: true
+        description: The barcode of the product
         schema:
-          type: number
-
-    get: 
+          type: string
       security:
-       - basicAuth: []
+        - basicAuth: []
       tags:
-        - WishList
-      description: "Gets a customer's wishlist" 
-      summary: Gets a customer's wishlist
+        - Product
+      description: Updates the product with the given barcode and information
+      summary: Updates a product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
       responses:
         '200':
-          description: WishList found and returned
+          description: prodcut found, updated and returned
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WishList'
+                $ref: '#/components/schemas/Product'
             text/csv:
               schema:
                 type: string
@@ -271,27 +339,53 @@ paths:
         
         '5XX':
           $ref: '#/components/responses/ServerError'
-
-    put:
+    delete:
+      security:
+        - basicAuth: []
+      tags: 
+        - Product
+      description: deletes a product with the given barcode from the given location
+      summary: deletes a product
+      responses:
+        '200':
+          description: Employee found, deleted and returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+  /location:
+    post:
       security:
         - basicAuth: []
       tags:
-        - WishList
-      description: "Updates a WishList with the given Customer id"
-      summary: Updates a WishList
+        - Location
+      description: "Creates a location with given information in the body and returns the created product"
+      summary: "Creates a location"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WishList'
+              items:
+                $ref: '#/components/schemas/Location'
       responses:
         '200':
-          description: "WishList found, changed and returned"
+          description: Location created and returned
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WishList'
+                $ref: '#/components/schemas/Location'
             text/csv:
               schema:
                 type: string
@@ -303,5 +397,108 @@ paths:
         
         '5XX':
           $ref: '#/components/responses/ServerError'
-    
-    
+  /location/at/{barcode}:
+    parameters:
+      - name: barcode
+        in: path
+        required: true
+        description: the barcode of the location
+        schema:
+          type: string
+    delete:
+      security:
+        - basicAuth: []
+      tags:
+        - Location
+      description: "Deletes a location with given barcode"
+      summary: "Deletes a location"
+      responses:
+        '200':
+          description: Location found, deleted and returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Location
+      description: "Gets a location with given barcode"
+      summary: "Gets a location"
+      responses:
+        '200':
+          description: Location found and returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+  /location/{barcode}:
+    parameters:
+      - name: barcode
+        in: path
+        required: true
+        description: The barcode of the location
+        schema:
+          type: string
+      - name: barcodeProduct
+        in: query
+        required: false
+        description: the barcode of the stored product
+        schema:
+          type: string
+      - name: number
+        in: query
+        required: false
+        description: the number of that product added to the location
+        schema:
+          type: integer
+    put:
+      security:
+        - basicAuth: []
+      tags:
+        - Location
+      description: "Updates a location with given information in the query and returns the created product"
+      summary: "Updates a location"
+      responses:
+        '200':
+          description: Location found, updated and returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+      

@@ -21,12 +21,12 @@ const CustomerSchema = new Schema({
     required: true
   },
   wishList: {
-      type: Object,
-      required: false
+    type: Schema.Types.ObjectId,
+    ref: 'Wishlist'
   }
 })
-customerSchema.index({ id: 1, password: 1 }, { uniqeu: true })
-customerSchema.plugin(uniqueValidator)
-const Customer = mongoose.model('customer', customerSchema)
+CustomerSchema.index({ id: 1, password: 1 }, { uniqeu: true })
+CustomerSchema.plugin(uniqueValidator)
+const Customer = mongoose.model('customer', CustomerSchema)
 
 module.export = Customer

@@ -11,7 +11,8 @@ const locationSchema = new Schema({
     type: Number
   },
   productBarcode: {
-    type: String
+    type: String,
+    ref: 'Product'
   },
   date: {
     type: Date,
