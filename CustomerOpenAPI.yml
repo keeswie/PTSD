@@ -1,0 +1,307 @@
+openapi: '3.0.2'
+info:
+  title: Customer API
+  version: '1.0'
+  description: |
+    API that allows the user to view products and create wishlists. 
+components:
+  securitySchemes:
+    basicAuth:     
+      type: http
+      scheme: basic
+  schemas:
+    Customer:
+      type: object
+      required:
+        - "id"
+        - "name"
+        - "address"
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name: 
+          type: string
+        adress:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        wishList:
+          type: object
+    Product:
+      type: object
+      properties:
+        barcode:
+          type: string
+        name: 
+          type: string
+        location:
+          type: string
+        price:
+          type: number
+        date:
+          type: string
+          format: date
+          example: "2019-07-26T22:18:23.018+00:00"
+    Location:
+      type: object
+      required:
+        - "barcode"
+      properties:
+        barcode:
+          type: string
+        barcodeProduct:
+          type: string
+        numberProdcut:
+          type: integer
+    WishList:
+      type: object
+      properties:
+        products:
+          type: array 
+          items:
+            $ref: "#/components/schemas/Product"
+        
+  responses:
+    errorMessage:
+      description: "Request body was not well formed."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error-message:
+                type: string
+                description: More details in message
+        text/csv:
+          schema:
+            type: string
+            description: More details in message
+    ServerError:
+      description: Server error; no results, try again later
+
+    NotFound:
+      description: Resource not found
+
+paths:
+  /customer:
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - Customer
+      description: "Creates a customer account with the given information from the body"
+      summary: Creates a customer
+      responses:
+        '201':
+          description: returned the created Customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError' 
+  /customer/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: "The id of the Customer" 
+        schema:
+          type: string
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        -  Customer
+      summary: Get wanted Customer
+      description: "Get Customer with the given id"
+      responses:
+        '200':
+          description: Customer found and returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+    put:
+      security:
+        - basicAuth: []
+      tags:
+        - Customer
+      description: "Updates a Customer with the given id"
+      summary: Updates a Customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+    
+      responses:
+        '200':
+          description: "Customer found, changed and returned"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      security:
+        - basicAuth: []
+      tags:
+        - Customer
+      description: "Deletes a Customer with the given id and return the Customer"
+      summary: Deletes a Customer
+
+      responses:
+        '204':
+          description: Customer found, deleted and returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+  /product/{barcode}:
+    parameters:
+      - name: barcode
+        in: path
+        required: true
+        description: The barcode of the product
+        schema:
+          type: string
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Product
+      description: "Gets the product with the given barcode"
+      summary: Gets a product
+      responses:
+        '200':
+          description: Product found and returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+  /wishlist/{customerId}:
+    parameters:
+      - name: customerId
+        in: path
+        required: true 
+        description: The id of the Customer
+        schema:
+          type: number
+
+    get: 
+      security:
+       - basicAuth: []
+      tags:
+        - WishList
+      description: "Gets a customer's wishlist" 
+      summary: Gets a customer's wishlist
+      responses:
+        '200':
+          description: WishList found and returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishList'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+    put:
+      security:
+        - basicAuth: []
+      tags:
+        - WishList
+      description: "Updates a WishList with the given Customer id"
+      summary: Updates a WishList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WishList'
+      responses:
+        '200':
+          description: "WishList found, changed and returned"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishList'
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/errorMessage'
+        
+        '404': 
+          $ref: '#/components/responses/NotFound'
+        
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+    
+    
