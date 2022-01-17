@@ -4,15 +4,19 @@ const Product = require('../../model/product')
 
 router.get('/', (req, res, next) => {
   Product.find()
-    .select('barcode name price ')
+    .select('_id barcode name price image locationBarcode min ')
     .then(result => {
       if (result) {
         const response = {
           product: result.map(result => {
             return {
+              id: result._id,
               barcode: result.barcode,
               name: result.name,
               price: result.price,
+              image: result.image,
+              locationBarcode: result.locationBarcode,
+              min: result.min,
               request: {
                 type: 'GET',
                 url: 'http://localhost:3000/products/' + result.barcode
@@ -38,9 +42,10 @@ router.get('/', (req, res, next) => {
 router.get('/:barcode', (req, res, next) => {
   const barcode = req.params.barcode
   Product.find({ barcode: barcode }, 'barcode name description price')
-    .then(docs => {
-      if (docs) {
-        res.status(200).json({ docs })
+    .then(product => {
+      console.log(product)
+      if (product) {
+        res.status(200).json({ product })
       } else {
         res.status(204).json({
           message: ' could not find product with given id'

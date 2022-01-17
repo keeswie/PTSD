@@ -2,20 +2,22 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-
-
-const custRoutes = require('.API/routes/customer')
-const wiliRoutes = require('.API/routes/wishList')
+const cors = require('cors')
+const wiliRoutes = require('./API/routes/wishList')
 const prodRoutes = require('./API/routes/Product')
 const locRoutes = require('./Api/routes/location')
 const empRoutes = require('./API/routes/employee')
-
 
 // setting everything up
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
+const corsOption = {
+  origin: 'http://localhost:3000',
+  Credentials: true,
+  optionSuccessStatus: 200
+}
+app.use(cors(corsOption))
 // give acces to any client
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
@@ -31,14 +33,10 @@ app.use((req, res, next) => {
 
 // from here its sending requests
 
-
-
-app.use('/customers', custRoutes)
 app.use('/wishlists', wiliRoutes)
 app.use('/products', prodRoutes)
 app.use('/employees', empRoutes)
 app.use('/locations', locRoutes)
-
 
 // if it cant find any or finish any it returns this (error)
 app.use((req, res, next) => {

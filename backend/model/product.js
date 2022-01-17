@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const uniqueValidator = require('mongoose-unique-validator')
 const productSchema = new Schema({
+  image: {
+    type: String
+  },
   barcode: {
     type: String,
     required: true
@@ -14,6 +17,10 @@ const productSchema = new Schema({
     type: String
   },
   price: {
+    type: String,
+    required: true
+  },
+  min: {
     type: Number,
     required: true
   },

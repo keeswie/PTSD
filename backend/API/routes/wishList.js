@@ -3,8 +3,8 @@ const router = express.Router()
 const WishList = require('../../model/wishlist')
 
 router.get('/:customerid', (req, res, next) => {
-  const id = req.params.id
-  WishList.find({ customerId: customerId }, 'products')
+  const id = req.params.costumerid
+  WishList.find({ customerId: id }, 'products')
     .then(docs => {
       if (docs) {
         res.status(200).json({ docs })

@@ -13,10 +13,6 @@ const locationSchema = new Schema({
   productBarcode: {
     type: String,
     ref: 'Product'
-  },
-  date: {
-    type: Date,
-    required: true
   }
 })
 locationSchema.index({ barcode: 1 }, { unique: true })
