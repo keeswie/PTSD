@@ -1,3 +1,5 @@
+//TODO
+
 import classes from "./PropertyItem.module.css";
 import Cards from "../UI/Cards";
 import { useHistory } from "react-router-dom"
@@ -24,6 +26,7 @@ function PropertyItem(props) {
         </div>
         <div className={classes.actions}>
           <button onClick={navigateHome}>DETAILS</button>
+          <button>update</button>
         </div>
       </Cards>
     </li>

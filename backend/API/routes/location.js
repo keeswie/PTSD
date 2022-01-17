@@ -78,18 +78,16 @@ router.get('/:barcode', (req, res, next) => {
 })
 router.put('/:barcode', (req, res, next) => {
   const barcode = req.params.barcode
-  try {    
-    const update = {}
-    for (const ops of req.body.update) {
-      update[ops.propName] = ops.value
-    }
-  } catch {
-    res.status(501).json({
-      message: 'sikkel'
-    })
+
+  // console.log(req.body.update)
+  const update = {}
+  for (const ops of req.body.update) {
+    update[ops.propName] = ops.value
   }
+
   Location.findOneAndUpdate({ barcode: barcode }, { $set: update })
     .then(result => {
+      console.log(result)
       res.status(200).json({
         message: 'location updated',
         Product: result,
@@ -98,10 +96,11 @@ router.put('/:barcode', (req, res, next) => {
           url: 'http://localhost:3000/locations/' + barcode
         }
       })
+      console.log(result)
     })
     .catch(err => {
       console.log(err)
-      res.status(500).json({
+      res.status(502).json({
         error: err
       })
     })

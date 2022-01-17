@@ -83,9 +83,11 @@ router.post('/', (req, res, next) => {
 router.put('/:barcode', (req, res, next) => {
   const barcode = req.params.barcode
   const update = {}
+  
   for (const ops of req.body.update) {
     update[ops.propName] = ops.value
   }
+  //console.log(update)
   Product.findOneAndUpdate({ barcode: barcode }, { $set: update })
     .then(result => {
       res.status(200).json({

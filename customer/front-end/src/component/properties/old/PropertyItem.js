@@ -24,6 +24,7 @@ function PropertyItem(props) {
         </div>
         <div className={classes.actions}>
           <button onClick={navigateHome}>DETAILS</button>
+          <button>update</button>
         </div>
       </Cards>
     </li>
