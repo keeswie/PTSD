@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios"
 import { useParams } from 'react-router-dom';
-import PropertyItem from "../component/properties/PropertyItem";
-import PropertyList from "../component/properties/PropertyList";
+
+import PropertyDetailedItem from "../component/properties/PropertyDetailedItem";
 
 function DetailPropertyPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,8 +16,8 @@ function DetailPropertyPage() {
     setIsLoading(true);
     axios.get("http://localhost:3000/products/"+barcode)
     .then((response) => {
-      setLoadedProp(response.data.product)
-      console.log(response.data.product)
+      setLoadedProp(response.data.product[0])
+      console.log(loadedProp)
       return response.data.product
     })
     .then(() => {
@@ -25,7 +25,6 @@ function DetailPropertyPage() {
     });
 
   }, []);
-
   
   if(isLoading){
     return (
@@ -38,8 +37,15 @@ function DetailPropertyPage() {
   }
   return (
     <section>
-      <h1>all products</h1>
-      <PropertyList products={loadedProp} />
+      <h1>detailed product</h1>
+      <PropertyDetailedItem
+          key={loadedProp.id}
+          barcode={loadedProp.barcode}
+          title={loadedProp.name}
+          price={loadedProp.price}
+          image={loadedProp.image}
+          locationBarcode={loadedProp.locationBarcode}
+          min={loadedProp.min} />
     </section>
   );
 }

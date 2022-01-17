@@ -11,11 +11,9 @@ function PropertyList(props) {
   return (
     <div>
       <input type="text" placeholder = "product barcode" onChange={event => {setProduct(event.target.value)}}/>
-      <input type="text" placeholder = "location barcode"/>
-      <button onClick={submitHandler}>add product to location</button>
     <ul className={classes.list}>
       {
-      props.products.filter((product)=>{
+      props.products.product.filter((product)=>{
         if(productBarcode === ""){
           return product
         }else if(product.barcode.includes(productBarcode)){

@@ -1,7 +1,7 @@
 import NewPropertyForm from "../component/properties/NewPropertyForm";
 function NewPropertyPage() {
   function addPropHandler(formData){
-    fetch('http://localhost:3002/properties',
+    fetch('http://localhost:3000/properties',
     {
       method:'POST',
       body: JSON.stringify(formData),

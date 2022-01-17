@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const Location = require('../../model/employee')
+const Location = require('../../model/location')
 
 router.post('/', (req, res, next) => {
   Location
@@ -78,11 +78,17 @@ router.get('/:barcode', (req, res, next) => {
 })
 router.put('/:barcode', (req, res, next) => {
   const barcode = req.params.barcode
-  const update = {}
-  for (const ops of req.body) {
-    update[ops.propName] = ops.value
+  try {    
+    const update = {}
+    for (const ops of req.body.update) {
+      update[ops.propName] = ops.value
+    }
+  } catch {
+    res.status(501).json({
+      message: 'sikkel'
+    })
   }
-  Location.findOneAndUpdate({ barcode: barcode })
+  Location.findOneAndUpdate({ barcode: barcode }, { $set: update })
     .then(result => {
       res.status(200).json({
         message: 'location updated',

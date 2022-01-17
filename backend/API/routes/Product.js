@@ -41,7 +41,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:barcode', (req, res, next) => {
   const barcode = req.params.barcode
-  Product.find({ barcode: barcode }, 'barcode name description price')
+  Product.find({ barcode: barcode }, '_id barcode name price image locationBarcode min')
     .then(product => {
       console.log(product)
       if (product) {

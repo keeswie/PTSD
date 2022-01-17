@@ -13,7 +13,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const corsOption = {
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:3001',
   Credentials: true,
   optionSuccessStatus: 200
 }

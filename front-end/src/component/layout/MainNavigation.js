@@ -5,17 +5,11 @@ import classes from "./MainNavigation.module.css";
 function MainNavigation() {
   return (
     <header className={classes.header}>
-      <div className={classes.logo}>Kamernet</div>
+      <div className={classes.logo}>Rethink</div>
       <nav>
         <ul>
           <li>
-            <Link to='/products'>All Properties</Link>
-          </li>
-          <li>
-            <Link to='/products/newProperty'>New Property</Link>
-          </li>
-          <li>
-            <Link to='/products/detail'>detail</Link>
+            <Link to='/products'>All Products</Link>
           </li>
         </ul>
       </nav>

@@ -4,12 +4,12 @@ import { useHistory } from "react-router-dom"
 function PropertyItem(props) {
   let history = useHistory();
   function navigateHome (){
-    history.push("/")
+    history.push("/products/"+ props.barcode)
   }
   return (
     <li className={classes.item}>
       <Cards>
-        <div className={classes.backgroundimage}>
+        <div className={classes.image}>
           <img  src={props.image}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null; // prevents looping
