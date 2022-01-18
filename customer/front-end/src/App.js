@@ -1,6 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
-import AllPropertiesPage from './pages/AllPropertiesPage';
-import DetailPropertyPage from './pages/DetailPropertyPage'
+import AllProductsPage from './pages/AllProductsPage';
+import DetailProductPage from './pages/DetailProductPage'
 import Layout from './component/layout/Layout'
 
 function App() {
@@ -8,10 +8,10 @@ function App() {
     <Layout>
       <Switch>
         <Route path='/products' exact>
-          <AllPropertiesPage />
+          <AllProductsPage />
         </Route>
-        <Route path='/products/:barcode' component={DetailPropertyPage}>
-          <DetailPropertyPage />
+        <Route path='/products/:barcode' component={DetailProductPage}>
+          <DetailProductPage />
         </Route>
       </Switch>
     </Layout>

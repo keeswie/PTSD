@@ -1,28 +1,26 @@
-//TODO
-
-import classes from "./PropertyList.module.css";
-import PropertyItem from "./PropertyItem";
+import classes from "./ProductList.module.css";
+import ProductItem from "./ProductItem";
 import {useState} from 'react'
-function PropertyList(props) {
+function ProductList(props) {
   const [productBarcode, setProduct] = useState('')
   const [location, setLocation] = useState('')
   function submitHandler(){
     
   }
-  console.log(props.wishLists)
+  console.log(props.products)
   return (
     <div>
       <input type="text" placeholder = "product barcode" onChange={event => {setProduct(event.target.value)}}/>
     <ul className={classes.list}>
       {
-      props.wishLists.wishList.filter((consumerId)=>{
-        if(consumerId === ""){
+      props.products.product.filter((product)=>{
+        if(productBarcode === ""){
           return product
-        }else if(wishLists.includes(consumerId)){
+        }else if(product.barcode.includes(productBarcode)){
           return product
         }
       }).map((product) => (
-        <PropertyItem
+        <ProductItem
           key={product.id}
           barcode={product.barcode}
           title={product.name}
@@ -36,4 +34,4 @@ function PropertyList(props) {
   );
 }
 
-export default PropertyList;
+export default ProductList;

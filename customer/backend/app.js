@@ -5,8 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const wiliRoutes = require('./API/routes/wishList')
 const prodRoutes = require('./API/routes/Product')
-const locRoutes = require('./Api/routes/location')
-const empRoutes = require('./API/routes/employee')
+const custRoutes = require('./API/routes/customer')
 
 // setting everything up
 app.use(morgan('dev'))
@@ -35,8 +34,7 @@ app.use((req, res, next) => {
 
 app.use('/wishlists', wiliRoutes)
 app.use('/products', prodRoutes)
-app.use('/employees', empRoutes)
-app.use('/locations', locRoutes)
+app.use('/customers', custRoutes)
 
 // if it cant find any or finish any it returns this (error)
 app.use((req, res, next) => {

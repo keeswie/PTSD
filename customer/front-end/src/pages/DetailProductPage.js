@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import axios from "axios"
 import { useParams } from 'react-router-dom';
 
-import PropertyDetailedItem from "../component/properties/PropertyDetailedItem";
+import ProductDetailedItem from "../component/properties/ProductDetailedItem";
 
-function DetailPropertyPage() {
+function DetailProductPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadedProp, setLoadedProp] = useState([]);
 
@@ -38,7 +38,7 @@ function DetailPropertyPage() {
   return (
     <section>
       <h1>detailed product</h1>
-      <PropertyDetailedItem
+      <ProductDetailedItem
           key={loadedProp.id}
           barcode={loadedProp.barcode}
           title={loadedProp.name}
@@ -50,4 +50,4 @@ function DetailPropertyPage() {
   );
 }
 
-export default DetailPropertyPage;
+export default DetailProductPage;

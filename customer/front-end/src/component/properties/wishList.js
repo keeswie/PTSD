@@ -1,7 +1,8 @@
-import classes from "./PropertyList.module.css";
-import PropertyItem from "./PropertyItem";
+//TODO
+import classes from "./ProductList.module.css";
+import ProductItem from "./ProductItem";
 import {useState} from 'react'
-function PropertyList(props) {
+function WishList(props) {
   const [productBarcode, setProduct] = useState('')
   const [location, setLocation] = useState('')
   function submitHandler(){
@@ -20,7 +21,7 @@ function PropertyList(props) {
           return product
         }
       }).map((product) => (
-        <PropertyItem
+        <ProductItem
           key={product.id}
           barcode={product.barcode}
           title={product.name}
@@ -34,4 +35,4 @@ function PropertyList(props) {
   );
 }
 
-export default PropertyList;
+export default WishList;

@@ -1,4 +1,4 @@
-import PropertyList from "../component/properties/PropertyList";
+import ProductList from "../component/properties/ProductList";
 import { useState, useEffect } from "react";
 import axios from "axios"
 
@@ -33,7 +33,7 @@ function AllProductsPage() {
   return (
     <section>
       <h1>all products</h1>
-      <PropertyList products={loadedProp} />
+      <ProductList products={loadedProp} />
     </section>
   );
 }
