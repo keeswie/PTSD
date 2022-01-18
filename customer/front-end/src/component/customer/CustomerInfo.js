@@ -1,9 +1,10 @@
 //TODO
 
-import classes from "./Customer.module.css";
+import classes from "./CustomerInfo.module.css";
 import Cards from "../UI/Cards";
 import { useHistory } from "react-router-dom"
-function Customer(props) {
+
+function CustomerInfo(props) {
   let history = useHistory();
   function navigateHome (){
     history.push("/customers/"+ props.id)
@@ -13,7 +14,7 @@ function Customer(props) {
       <Cards>
         <div className={classes.content}>
           <h3>{props.title}</h3>
-          <p>ID: {props.id}</p>
+          <p>id: {props.id}</p>
           <p>address: {props.address}</p>
           <p>email: {props.email}</p>
           <p>wishlist: {props.wishList}</p>
@@ -27,4 +28,4 @@ function Customer(props) {
   );
 }
 
-export default Customer;
+export default CustomerInfo;

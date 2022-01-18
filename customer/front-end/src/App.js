@@ -1,7 +1,9 @@
 import { Route, Switch } from 'react-router-dom';
 import AllProductsPage from './pages/AllProductsPage';
-import DetailProductPage from './pages/DetailProductPage'
-import Layout from './component/layout/Layout'
+import DetailProductPage from './pages/DetailProductPage';
+import CustomerInfoPage from './pages/CustomerInfoPage';
+import CustomerSearchPage from './pages/CustomerSearchPage';
+import Layout from './component/layout/Layout';
 
 function App() {
   return (
@@ -12,6 +14,12 @@ function App() {
         </Route>
         <Route path='/products/:barcode' component={DetailProductPage}>
           <DetailProductPage />
+        </Route>
+        <Route path= '/customers/:id' component={CustomerInfoPage}>
+          <CustomerInfoPage/>
+        </Route>
+        <Route path='/customers/:id' component={CustomerSearchPage}>
+          <CustomerSearchPage/>
         </Route>
       </Switch>
     </Layout>

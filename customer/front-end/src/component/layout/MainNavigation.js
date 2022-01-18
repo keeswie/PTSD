@@ -11,6 +11,12 @@ function MainNavigation() {
           <li>
             <Link to='/products'>All Products</Link>
           </li>
+          <li>
+            <Link to='/customers/'>All Customers</Link> 
+          </li>
+          <li>
+            <Link to= '/customers/search'>Customer Search</Link>
+          </li>
         </ul>
       </nav>
     </header>

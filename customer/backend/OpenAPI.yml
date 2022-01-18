@@ -22,7 +22,7 @@ components:
           readOnly: true
         name: 
           type: string
-        adress:
+        address:
           type: string
         email:
           type: string
