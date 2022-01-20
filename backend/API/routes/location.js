@@ -33,14 +33,7 @@ router.get('/', (req, res, next) => {
               barcode: result.barcode,
               productNumber: result.productNumber,
               date: result.date,
-              request: {
-                type: 'GET',
-                url: 'http://localhost:3000/locations' + result.barcode
-              },
-              product: {
-                type: 'GET',
-                url: 'http://localhost:300/products/' + result.productBarcode
-              }
+              productBarcode: result.productBarcode
             }
           })
         }

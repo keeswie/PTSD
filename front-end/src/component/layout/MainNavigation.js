@@ -11,6 +11,9 @@ function MainNavigation() {
           <li>
             <Link to='/products'>All Products</Link>
           </li>
+          <li>
+            <Link to='/locations'>All locations</Link>
+          </li>
         </ul>
       </nav>
     </header>

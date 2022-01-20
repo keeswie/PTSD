@@ -10,13 +10,13 @@ function DetailProductPage() {
 
 
   const { barcode } = useParams();
-  console.log(barcode)
+   (barcode)
   useEffect(() => {
     setIsLoading(true);
     axios.get("http://localhost:3000/products/"+barcode)
     .then((response) => {
       setLoadedProp(response.data.product[0])
-      console.log(loadedProp)
+       (loadedProp)
       return response.data.product
     })
     .then(() => {

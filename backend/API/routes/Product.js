@@ -4,7 +4,7 @@ const Product = require('../../model/product')
 
 router.get('/', (req, res, next) => {
   Product.find()
-    .select('_id barcode name price image locationBarcode min ')
+    .select('_id barcode name price image locationBarcode min Aid ')
     .then(result => {
       if (result) {
         const response = {
@@ -17,6 +17,7 @@ router.get('/', (req, res, next) => {
               image: result.image,
               locationBarcode: result.locationBarcode,
               min: result.min,
+              Aid: result.Aid,
               request: {
                 type: 'GET',
                 url: 'http://localhost:3000/products/' + result.barcode
@@ -41,10 +42,11 @@ router.get('/', (req, res, next) => {
 
 router.get('/:barcode', (req, res, next) => {
   const barcode = req.params.barcode
-  Product.find({ barcode: barcode }, '_id barcode name price image locationBarcode min')
+  Product.find({ barcode: barcode }, '_id barcode name price image locationBarcode min Aid')
     .then(product => {
       console.log(product)
       if (product) {
+        console.log(product)
         res.status(200).json({ product })
       } else {
         res.status(204).json({

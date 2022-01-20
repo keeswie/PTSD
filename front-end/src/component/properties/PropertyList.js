@@ -1,13 +1,10 @@
 import classes from "./PropertyList.module.css";
-import PropertyItem from "./PropertyItem";
+import PropertyItem from "./products/PropertyItem";
 import {useState} from 'react'
 function PropertyList(props) {
   const [productBarcode, setProduct] = useState('')
-  const [location, setLocation] = useState('')
-  function submitHandler(){
-    
-  }
-  console.log(props.products)
+  
+  console.log(props.products.product)
   return (
     <div>
       <input type="text" placeholder = "product barcode" onChange={event => {setProduct(event.target.value)}}/>
